@@ -7,7 +7,7 @@ async function main() {
 
     let auditLog
     core.info(`Fetching audit log for ${org}`)
-    const client = github.getOctokit(token)
+    const client = await github.getOctokit(token)
     try {
         auditLog = await client.rest.paginate('GET /orgs/{org}/audit-log', {
             org: org,
