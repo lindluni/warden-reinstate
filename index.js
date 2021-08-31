@@ -9,7 +9,7 @@ async function main() {
     core.info(`Fetching audit log for ${org}`)
     const client = github.getOctokit(token)
     try {
-        auditLog = await client.paginate('GET /orgs/{org}/audit-log', {
+        auditLog = await client.rest.paginate('GET /orgs/{org}/audit-log', {
             org: org,
             phrase: 'action:team.remove_member',
             include: 'all',
@@ -28,7 +28,7 @@ async function main() {
             }
             core.info(`Attempting to reinstate ${entry.user} to the ${entry.team} team`)
             try {
-                await client.teams.addOrUpdateMembershipForUserInOrg({
+                await client.rest.teams.addOrUpdateMembershipForUserInOrg({
                     org: org,
                     username: entry.user,
                     role: "member",
