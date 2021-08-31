@@ -9,7 +9,7 @@ async function main() {
     core.info(`Fetching audit log for ${org}`)
     const client = github.getOctokit(token)
     try {
-        auditLog = await client.rest.paginate('GET /orgs/{org}/audit-log', {
+        auditLog = await client.paginate('GET /orgs/{org}/audit-log', {
             org: org,
             phrase: 'action:team.remove_member',
             include: 'all',
