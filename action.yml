@@ -2,6 +2,9 @@ name: 'User Reinstatement'
 author: 'Brett Logan'
 description: 'Automates the reinstatement of users team membership'
 inputs:
+  authorizer:
+    description: The entry.actor from the audit log whose entries are allowed to be used
+    required: true
   org:
     description: The GitHub org
     required: true

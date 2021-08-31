@@ -4,6 +4,7 @@ const github = require('@actions/github')
 async function main() {
     const token = core.getInput('TOKEN', {required: true, trimWhitespace: true})
     const org = core.getInput('ORG', {required: true, trimWhitespace: true})
+    const authorizer = core.getInput('AUTHORIZER', {required: true, trimWhitespace: true})
 
     let auditLog
     core.info(`Fetching audit log for ${org}`)
@@ -22,8 +23,8 @@ async function main() {
 
     let found = false
     for (const entry of auditLog) {
-        if (entry.user === process.env.USER && entry.actor === 'va-devops-bot') {
-            if(!found) {
+        if (entry.user === process.env.USER && entry.actor === authorizer) {
+            if (!found) {
                 found = true
             }
             core.info(`Attempting to reinstate ${entry.user} to the ${entry.team} team`)
@@ -41,7 +42,7 @@ async function main() {
             }
         }
     }
-    if(!found) {
+    if (!found) {
         core.warning(`No entries for ${process.env.USER} were found in the audit log in the last 90 days`)
         core.setFailed('User not found, perhaps they were removed more than 90 days ago')
     }
