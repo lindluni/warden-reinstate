@@ -1,0 +1,14 @@
+name: 'User Reinstatement'
+author: 'Brett Logan'
+description: 'Automates the reinstatement of users team membership'
+inputs:
+  org:
+    description: The GitHub org
+    required: true
+    default: ${{ github.repository_owner }}
+  token:
+    description: GitHub Admin PAT to open issues and comment
+    required: true
+runs:
+  using: node12
+  main: dist/index.js
