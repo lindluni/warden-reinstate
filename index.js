@@ -4,7 +4,7 @@ const github = require('@actions/github')
 async function main() {
     const token = core.getInput('TOKEN', {required: true, trimWhitespace: true})
     const org = core.getInput('ORG', {required: true, trimWhitespace: true})
-    const authorizer = core.getInput('AUTHORIZER', {required: true, trimWhitespace: true})
+    const authorizers = core.getInput('AUTHORIZERS', {required: true, trimWhitespace: true}).split(',')
 
     let auditLog
     core.info(`Fetching audit log for ${org}`)
@@ -23,7 +23,7 @@ async function main() {
 
     let found = false
     for (const entry of auditLog) {
-        if (entry.user === process.env.USER && entry.actor === authorizer) {
+        if (entry.user === process.env.USER && authorizers.includes(entry.actor)) {
             if (!found) {
                 found = true
             }
